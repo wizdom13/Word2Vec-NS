@@ -79,12 +79,11 @@ def train(args):
     for epoch in range(1, args.epoch + 1):
         for batch_idx, (iword, owords) in enumerate(dataloader):
 
-            batch_size = iword.size()[0]
             context_size = owords.size()[1]
             if weights is not None:
-                nwords = torch.multinomial(weights, batch_size * context_size * args.n_negs, replacement=True).view(batch_size, -1)
+                nwords = torch.multinomial(weights, args.mb * context_size * args.n_negs, replacement=True).view(args.mb, -1)
             else:
-                nwords = torch.FloatTensor(batch_size, context_size * args.n_negs).uniform_(0, vocab_size - 1).long()
+                nwords = torch.FloatTensor(args.mb, context_size * args.n_negs).uniform_(0, vocab_size - 1).long()
 
             iword, owords, nwords = iword.to(device), owords.long().to(device), nwords.long().to(device)
             loss = model(iword, owords, nwords)

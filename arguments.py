@@ -56,8 +56,13 @@ def train_args():
 
 def plot_args():
     parser = argparse.ArgumentParser(description='Word2Vec training')
-    parser.add_argument('--data_dir', type=str, default='./data/', help="data directory path")
-    parser.add_argument('--result_dir', type=str, default='./result/', help="result directory path")
-    parser.add_argument('--model', type=str, default='tsne', choices=['pca', 'tsne'], help="model for visualization")
-    parser.add_argument('--top_k', type=int, default=1000, help="scatter top-k words")
+    parser.add_argument('--data_dir', type=str, default='./data/',
+                        help="Data directory path")
+    parser.add_argument('--result_dir', type=str, default='./result/',
+                        help="Result directory path")
+    parser.add_argument('--model', type=str, default='tsne', choices=['pca', 'tsne'],
+                        help="Model for visualization")
+    parser.add_argument('--top_k', type=int, default=1000,
+                        help="Scatter top-k words")
+
     return parser.parse_args()
