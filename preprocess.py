@@ -50,6 +50,7 @@ def main(args):
             if not line:
                 continue
             sentence = []
+            sents = sent_tokenize(line)
             for sent in sents:
                 words = word_tokenize(sent)
                 for word in words:
