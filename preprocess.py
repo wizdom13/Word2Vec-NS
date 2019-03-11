@@ -22,12 +22,12 @@ def main(args):
             step += 1
             if not step % 1000:
                 print("Working on line {:,},000 of the vocab...".format(step // 1000), end='\r')
-            line = line.strip()
+            line = line.lower().strip()
             if not line:
                 continue
             sents = sent_tokenize(line)
             for sent in sents:
-                words = word_tokenize(sent)
+                words = word_tokenize(sent)         
                 for word in words:
                     wc[word] = wc.get(word, 0) + 1
 
@@ -46,7 +46,7 @@ def main(args):
             step += 1
             if not step % 1000:
                 print("Working on line {:,},000 of the corpus...".format(step // 1000), end='\r')
-            line = line.strip()
+            line = line.lower().strip()
             if not line:
                 continue
             sentence = []
