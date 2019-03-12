@@ -33,6 +33,14 @@ class Word2VecDataset(Dataset):
         iword, owords = self.data[idx]
         return iword, np.array(owords)
 
+def write_vectors(embeddings, path, dim, i2w, gensim=True):
+    with open(path, 'w') as f:
+        if gensim:
+            # Header needed to load vector file with gensim.
+            print(f'{len(i2w)} {dim}', file=f)
+        for i, word in enumerate(i2w):
+            vec = embeddings[i, :]
+            print(f'{word} {" ".join([str(val) for val in vec])}', file=f)
 
 def train(args):
     device = torch.device('cuda' if args.cuda else 'cpu')
@@ -100,6 +108,8 @@ def train(args):
     print("Saving Embedding Matrix")
     idx2vec = model.ivectors.weight.data.cpu().numpy()
     pickle.dump(idx2vec, open(os.path.join(args.data_dir, 'idx2vec.dat'), 'wb'))
+    write_vectors(idx2vec, os.path.join(args.data_dir, 'vectors.txt'), args.e_dim, idx2word, gensim=True)
+
 
     print("Saving Model...")
     t.save(model.state_dict(), os.path.join(args.save_dir, '{}.pt'.format(args.name)))
